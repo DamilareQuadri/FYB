@@ -3,9 +3,12 @@ import type { Product } from './types';
 export interface Slide {
   id: string;
   image: string;
+  subtitle: string;
   title: string;
   description: string;
-  align: 'left';
+  align: 'left' | 'center' | 'right';
+  ctaText: string;
+  ctaLink: string;
 }
 
 export const HERO_SLIDES: Slide[] = [
@@ -14,35 +17,50 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/hero_banner_1781633312800.png',
     title: 'Corporate Day',
     description: 'Discover our latest premium collection. Tailored fits, uncompromising quality, and styles that command attention.',
-    align: 'left'
+    align: 'left',
+    subtitle: 'FYB Collection',
+    ctaText: 'Shop Now',
+    ctaLink: '/products'
   },
   {
     id: 'slide-2',
     image: '/images/corporate_hero.png',
     title: 'Denim Day',
     description: 'Command the room with our tailored corporate blazers and professional attire. Handcrafted for success.',
-    align: 'left'
+    align: 'left',
+    subtitle: 'FYB Collection',
+    ctaText: 'Shop Now',
+    ctaLink: '/products'
   },
   {
     id: 'slide-3',
     image: '/images/denim_hero.png',
     title: 'Jersey Day',
     description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
-    align: 'left'
+    align: 'left',
+    subtitle: 'FYB Collection',
+    ctaText: 'Shop Now',
+    ctaLink: '/products'
   },
   {
     id: 'slide-4',
     image: '/images/denim_hero.png',
     title: 'Costume Day',
     description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
-    align: 'left'
+    align: 'left',
+    subtitle: 'FYB Collection',
+    ctaText: 'Shop Now',
+    ctaLink: '/products'
   },
   {
     id: 'slide-5',
     image: '/images/denim_hero.png',
     title: 'Owanbe Day',
     description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
-    align: 'left'
+    align: 'left',
+    subtitle: 'FYB Collection',
+    ctaText: 'Shop Now',
+    ctaLink: '/products'
   }
 ];
 
@@ -57,7 +75,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Corporate',
     sizes: ['S', 'M', 'L', 'XL'],
     colors: ['White', 'Light Blue', 'Navy'],
-    isNew: true
+    is_new: true
   },
   {
     id: 'p2',
@@ -68,7 +86,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Outerwear',
     sizes: ['M', 'L', 'XL'],
     colors: ['Black', 'Brown'],
-    isNew: false
+    is_new: false
   },
   {
     id: 'p3',
@@ -79,7 +97,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Corporate',
     sizes: ['30', '32', '34', '36'],
     colors: ['Dark Grey', 'Black', 'Navy'],
-    isNew: true
+    is_new: true
   },
   {
     id: 'p4',
@@ -90,7 +108,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'Y2k/Denim',
     sizes: ['S', 'M', 'L', 'XL'],
     colors: ['Vintage Wash', 'Indigo'],
-    isNew: false
+    is_new: false
   }
 ];
 

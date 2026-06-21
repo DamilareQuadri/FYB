@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Badges */}
-      {product.isNew && (
+      {product.is_new && (
         <div className="absolute top-3 left-3 z-10 bg-black text-white text-[10px] uppercase font-bold tracking-wider py-1 px-2 rounded-sm">
           New Arrival
         </div>

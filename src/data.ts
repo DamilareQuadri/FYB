@@ -17,7 +17,7 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/corporate_hero.png',
     title: 'Corporate Day',
     subtitle: 'Executive Style',
-    description: 'Discover our latest premium collection. Tailored fits, uncompromising quality, and styles that command attention.',
+    description: 'Dress up in professional, formal business attire to prep for the corporate world',
     align: 'left',
     ctaText: 'Shop Now',
     ctaLink: '/products'
@@ -27,7 +27,7 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/denim_hero.png',
     title: 'Denim Day',
     subtitle: 'Street & Denim',
-    description: 'Command the room with our tailored corporate blazers and professional attire. Handcrafted for success.',
+    description: 'Pull out your best jeans, jackets, and overalls for a nostalgic or vintage Y2K',
     align: 'left',
     ctaText: 'Shop Now',
     ctaLink: '/products'
@@ -37,7 +37,7 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/jersey_hero.png',
     title: 'Jersey Day',
     subtitle: 'Athletic Wear',
-    description: 'Rep your favourite team',
+    description: 'Rep your favourite football or sport team',
     align: 'left',
     ctaText: 'Shop Now',
     ctaLink: '/products'
@@ -47,7 +47,7 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/costume_hero.png',
     title: 'Costume Day',
     subtitle: 'Creative Expressions',
-    description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
+    description: 'Cosplay as one of your favourite characters from any movie, TV show, or game',
     align: 'left',
     ctaText: 'Shop Now',
     ctaLink: '/products'
@@ -57,7 +57,7 @@ export const HERO_SLIDES: Slide[] = [
     image: '/images/owanbe_hero.png',
     title: 'Owanbe Day',
     subtitle: 'Cultural Heritage',
-    description: 'Cultural Day outfits',
+    description: 'Dress up in your traditional attire to showcase your cultural heritage',
     align: 'left',
     ctaText: 'Shop Now',
     ctaLink: '/products'

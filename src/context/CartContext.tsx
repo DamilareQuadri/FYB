@@ -121,7 +121,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const addToCart = async (newItem: CartItem) => {
-    if (!cartId) return;
+    if (!cartId) {
+      alert("Unable to add to cart. This usually means 'Anonymous Sign-ins' is not enabled in your Supabase project's Authentication settings.");
+      return;
+    }
     openCart();
     const existing = items.find(
       (i) =>

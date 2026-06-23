@@ -4,44 +4,50 @@ export interface Slide {
   id: string;
   image: string;
   title: string;
+  subtitle: string;
   description: string;
-  align: 'left';
+  align: 'left' | 'center' | 'right';
 }
 
 export const HERO_SLIDES: Slide[] = [
   {
     id: 'slide-1',
-    image: '/images/hero_banner_1781633312800.png',
+    image: '/images/corporate_hero.png',
     title: 'Corporate Day',
+    subtitle: 'Executive Style',
     description: 'Discover our latest premium collection. Tailored fits, uncompromising quality, and styles that command attention.',
     align: 'left'
   },
   {
     id: 'slide-2',
-    image: '/images/corporate_hero.png',
+    image: '/images/denim_hero.png',
     title: 'Denim Day',
+    subtitle: 'Street & Denim',
     description: 'Command the room with our tailored corporate blazers and professional attire. Handcrafted for success.',
     align: 'left'
   },
   {
     id: 'slide-3',
-    image: '/images/denim_hero.png',
+    image: '/images/jersey_hero.png',
     title: 'Jersey Day',
-    description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
+    subtitle: 'Athletic Wear',
+    description: 'Rep your favourite team',
     align: 'left'
   },
   {
     id: 'slide-4',
-    image: '/images/denim_hero.png',
+    image: '/images/costume_hero.png',
     title: 'Costume Day',
+    subtitle: 'Creative Expressions',
     description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
     align: 'left'
   },
   {
     id: 'slide-5',
-    image: '/images/denim_hero.png',
+    image: '/images/owanbe_hero.png',
     title: 'Owanbe Day',
-    description: 'Urban staples reimagined. Premium heavy cotton hoodies, distressed vintage denim, and bold street fits.',
+    subtitle: 'Cultural Heritage',
+    description: 'Cultural Day outfits',
     align: 'left'
   }
 ];
@@ -100,5 +106,10 @@ export const CATEGORIES = [
   'Y2k/Denim',
   'Jersey',
   'Costume',
-  'Outerwear'
+  'Owanbe',
+  'Footwear',
+  'Accesories',
+  'Sign-Out Shirt',
+  'Sign-Out Jacket',
+  'Sash'
 ];

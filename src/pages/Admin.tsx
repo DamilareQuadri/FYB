@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Package, Plus } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { CATEGORIES } from '../data';
 
 const Admin: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -9,8 +10,8 @@ const Admin: React.FC = () => {
     price: '',
     description: '',
     category: 'Corporate',
-    imageUrl: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [sizes, setSizes] = useState({ S: true, M: true, L: true, XL: true });
   const [colors, setColors] = useState('Black, White');
 
@@ -21,7 +22,29 @@ const Admin: React.FC = () => {
     try {
       const selectedSizes = Object.entries(sizes).filter(([_, isSelected]) => isSelected).map(([size]) => size);
       const colorArray = colors.split(',').map(c => c.trim()).filter(Boolean);
-      const imagesArray = formData.imageUrl ? [formData.imageUrl] : ['/images/premium_shirt_1781633323343.png'];
+      
+      let uploadedImageUrl = '';
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, imageFile);
+
+        if (uploadError) {
+          throw new Error(`Image upload failed: ${uploadError.message}`);
+        }
+
+        const { data } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+          
+        uploadedImageUrl = data.publicUrl;
+      }
+
+      const imagesArray = uploadedImageUrl ? [uploadedImageUrl] : ['/images/premium_shirt_1781633323343.png'];
 
       const { error } = await supabase.from('products').insert([
         {
@@ -40,7 +63,8 @@ const Admin: React.FC = () => {
       
       alert('Product added successfully!');
       // Reset form
-      setFormData({ name: '', price: '', description: '', category: 'Corporate', imageUrl: '' });
+      setFormData({ name: '', price: '', description: '', category: 'Corporate' });
+      setImageFile(null);
       
     } catch (error: any) {
       console.error('Error adding product:', error);
@@ -86,12 +110,9 @@ const Admin: React.FC = () => {
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Category</label>
                 <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full border-gray-300 rounded-lg shadow-sm focus:border-slate-900 focus:ring-slate-900 sm:text-sm p-3 border outline-none bg-white">
-                  <option value="Corporate">Corporate</option>
-                  <option value="Y2k/Denim">Y2k/Denim</option>
-                  <option value="Jersey">Jersey</option>
-                  <option value="Costume">Costume</option>
-                  <option value="Outerwear">Outerwear</option>
-                  <option value="Accessories">Accessories</option>
+                  {CATEGORIES.filter(cat => cat !== 'All').map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
                 </select>
               </div>
 
@@ -123,9 +144,18 @@ const Admin: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Image URL</label>
-                <input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} type="url" className="w-full border-gray-300 rounded-lg shadow-sm focus:border-slate-900 focus:ring-slate-900 sm:text-sm p-3 border outline-none" placeholder="https://example.com/image.jpg (Optional)" />
-                <p className="text-xs text-gray-500 mt-2">Leave blank to use a default placeholder image.</p>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Product Image</label>
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={e => {
+                    if (e.target.files && e.target.files[0]) {
+                      setImageFile(e.target.files[0]);
+                    }
+                  }} 
+                  className="w-full border-gray-300 rounded-lg shadow-sm focus:border-slate-900 focus:ring-slate-900 sm:text-sm p-3 border outline-none bg-white" 
+                />
+                <p className="text-xs text-gray-500 mt-2">Upload a product image. Leave blank to use a placeholder.</p>
               </div>
             </div>
 

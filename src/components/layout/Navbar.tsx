@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
@@ -21,18 +21,33 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex space-x-8">
-            <Link to="/" className="text-slate-900 font-medium hover:text-slate-600 border-b-2 border-slate-900 pb-1">Home</Link>
-            <Link to="/products" className="text-slate-500 font-medium hover:text-slate-900">Product</Link>
-            <Link to="/about" className="text-slate-500 font-medium hover:text-slate-900">About</Link>
-            <Link to="/contact" className="text-slate-500 font-medium hover:text-slate-900">Contact</Link>
+            {[
+              { path: '/', label: 'Home' },
+              { path: '/products', label: 'Product' },
+              { path: '/about', label: 'About' },
+              { path: '/contact', label: 'Contact' },
+            ].map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  `font-medium pb-1 border-b-2 transition-colors ${isActive
+                    ? 'text-slate-900 border-slate-900 hover:text-slate-600'
+                    : 'text-slate-500 border-transparent hover:text-slate-900'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </div>
 
           {/* Right Section: Search & Icons */}
           <div className="flex items-center space-x-4 md:space-x-6">
             <div className="hidden lg:flex relative">
-              <input 
-                type="text" 
-                placeholder="Search for products" 
+              <input
+                type="text"
+                placeholder="Search for products"
                 className="bg-gray-100 border-none rounded-full py-1.5 pl-4 pr-10 text-sm focus:ring-2 focus:ring-slate-900 outline-none w-48"
               />
               <Search className="absolute right-3 top-2 h-4 w-4 text-gray-400" />
@@ -42,7 +57,7 @@ const Navbar: React.FC = () => {
               <User className="h-6 w-6" />
             </button>
 
-            <button 
+            <button
               onClick={openCart}
               className="text-slate-700 hover:text-black transition-colors relative"
             >

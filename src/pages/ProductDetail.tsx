@@ -28,7 +28,7 @@ const ProductDetail: React.FC = () => {
           .select('*')
           .eq('id', id)
           .single();
-        
+
         if (error) throw error;
         setProduct(data);
       } catch (err: any) {
@@ -92,15 +92,15 @@ const ProductDetail: React.FC = () => {
         {/* Left: Image Gallery */}
         <div className="w-full lg:w-1/2">
           <div className="bg-gray-100 rounded-2xl overflow-hidden aspect-[4/5] relative">
-            <img 
-              src={product.images[0]} 
-              alt={product.name} 
+            <img
+              src={product.images[0]}
+              alt={product.name}
               className="w-full h-full object-cover object-center"
             />
           </div>
           <div className="flex gap-4 mt-4">
             <div className="w-24 h-24 rounded-lg bg-gray-100 border-2 border-slate-900 overflow-hidden cursor-pointer">
-               <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
+              <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ const ProductDetail: React.FC = () => {
         <div className="w-full lg:w-1/2 flex flex-col">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2">{product.name}</h1>
           <p className="text-2xl text-slate-700 font-medium mb-6">{formatCurrency(product.price)}</p>
-          
+
           <p className="text-slate-600 leading-relaxed mb-8">
             {product.description}
           </p>
@@ -130,8 +130,8 @@ const ProductDetail: React.FC = () => {
                     onClick={() => setSelectedColor(color)}
                     className={cn(
                       "px-4 py-2 border rounded-md text-sm font-medium transition-all",
-                      selectedColor === color 
-                        ? "border-slate-900 bg-slate-900 text-white" 
+                      selectedColor === color
+                        ? "border-slate-900 bg-slate-900 text-white"
                         : "border-gray-200 text-slate-700 hover:border-slate-400 bg-white"
                     )}
                   >
@@ -145,7 +145,7 @@ const ProductDetail: React.FC = () => {
           {/* Size Selection */}
           {product.sizes && product.sizes.length > 0 && (
             <div className="mb-8">
-               <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-sm font-medium text-slate-900">Size</span>
                 <button className="text-sm text-gray-500 underline hover:text-slate-900">Size Guide</button>
               </div>
@@ -156,8 +156,8 @@ const ProductDetail: React.FC = () => {
                     onClick={() => setSelectedSize(size)}
                     className={cn(
                       "py-3 border rounded-md text-sm font-medium transition-all text-center",
-                      selectedSize === size 
-                        ? "border-slate-900 bg-slate-900 text-white" 
+                      selectedSize === size
+                        ? "border-slate-900 bg-slate-900 text-white"
                         : "border-gray-200 text-slate-700 hover:border-slate-400 bg-white"
                     )}
                   >
@@ -170,7 +170,7 @@ const ProductDetail: React.FC = () => {
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-          <button 
+          <button
             onClick={handleAddToCart}
             className="w-full bg-black text-white rounded-xl py-4 font-semibold text-lg hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl active:scale-[0.98] flex items-center justify-center gap-3 mb-8"
           >
@@ -202,7 +202,7 @@ const ProductDetail: React.FC = () => {
               </p>
             </details>
           </div>
-          
+
         </div>
       </div>
     </div>

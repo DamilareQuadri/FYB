@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { HERO_SLIDES } from '../../data';
 
 const AUTOPLAY_TIME = 6000; // 6 seconds
@@ -72,7 +71,7 @@ const HeroSlideshow: React.FC = () => {
   }, [nextSlide, prevSlide]);
 
   return (
-    <section 
+    <section
       className="relative w-full h-[85vh] min-h-[600px] overflow-hidden bg-black select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -98,7 +97,7 @@ const HeroSlideshow: React.FC = () => {
       <div className="relative w-full h-full">
         {HERO_SLIDES.map((slide, index) => {
           const isActive = index === currentIndex;
-          
+
           // Compute alignment classes
           let alignContainerClass = 'items-start text-left max-w-xl';
           if (slide.align === 'center') {
@@ -110,25 +109,23 @@ const HeroSlideshow: React.FC = () => {
           return (
             <div
               key={slide.id}
-              className={`absolute inset-0 w-full h-full flex items-center transition-opacity duration-1000 ease-in-out ${
-                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-              }`}
+              className={`absolute inset-0 w-full h-full flex items-center transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
             >
               {/* Background Image with Ken Burns Zoom Effect */}
               <div className="absolute inset-0 overflow-hidden">
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  className={`w-full h-full object-cover object-center transition-transform duration-[8000ms] ease-out ${
-                    isActive ? 'scale-105' : 'scale-100'
-                  }`}
+                  className={`w-full h-full object-cover object-center transition-transform duration-[8000ms] ease-out ${isActive ? 'scale-105' : 'scale-100'
+                    }`}
                 />
                 {/* Gradient Overlays based on text alignment to improve readability */}
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20`} />
                 {slide.align === 'left' && (
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent hidden md:block" />
                 )}
-                {slide.align === 'right' && (
+                {slide.align === 'left' && (
                   <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-transparent to-transparent hidden md:block" />
                 )}
               </div>
@@ -138,44 +135,27 @@ const HeroSlideshow: React.FC = () => {
                 <div className={`flex flex-col transition-all duration-1000 ${alignContainerClass}`}>
                   {/* Subtitle */}
                   <span
-                    className={`text-sm md:text-base font-semibold tracking-widest text-yellow-400 uppercase mb-3 transition-all duration-700 delay-100 transform ${
-                      isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
+                    className={`text-sm md:text-base font-semibold tracking-widest text-yellow-400 uppercase mb-3 transition-all duration-700 delay-100 transform ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                      }`}
                   >
-                    {slide.subtitle}
+                    {slide.title}
                   </span>
 
                   {/* Title */}
                   <h1
-                    className={`text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight leading-tight transition-all duration-700 delay-300 transform ${
-                      isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
+                    className={`text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight leading-tight transition-all duration-700 delay-300 transform ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                      }`}
                   >
                     {slide.title}
                   </h1>
 
                   {/* Description */}
                   <p
-                    className={`text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-lg transition-all duration-700 delay-500 transform ${
-                      isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
+                    className={`text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-lg transition-all duration-700 delay-500 transform ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                      }`}
                   >
                     {slide.description}
                   </p>
-
-                  {/* Action Link Button */}
-                  <div
-                    className={`transition-all duration-700 delay-700 transform ${
-                      isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
-                  >
-                    <Link
-                      to={slide.ctaLink}
-                      className="bg-white text-black px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 shadow-lg hover:shadow-xl active:scale-95"
-                    >
-                      {slide.ctaText} <ArrowRight className="h-5 w-5" />
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
@@ -215,9 +195,8 @@ const HeroSlideshow: React.FC = () => {
                 <div className="w-12 h-1.5 rounded-full bg-white/30 overflow-hidden relative">
                   <div
                     key={currentIndex} // Reset animation on active slide change
-                    className={`absolute top-0 left-0 h-full bg-yellow-400 animate-slide-progress ${
-                      isPaused ? 'animate-slide-progress-paused' : ''
-                    }`}
+                    className={`absolute top-0 left-0 h-full bg-yellow-400 animate-slide-progress ${isPaused ? 'animate-slide-progress-paused' : ''
+                      }`}
                   />
                 </div>
               ) : (

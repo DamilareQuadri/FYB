@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/product/ProductCard';
 import { CATEGORIES } from '../data';
 import { Filter, ChevronDown, Loader2 } from 'lucide-react';
@@ -6,9 +7,16 @@ import { supabase } from '../lib/supabase';
 import type { Product } from '../types';
 
 const ProductList: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const location = useLocation();
+  const [selectedCategory, setSelectedCategory] = useState<string>(location.state?.category || 'All');
   const [sortBy, setSortBy] = useState<string>('newest');
-  
+
+  useEffect(() => {
+    if (location.state?.category) {
+      setSelectedCategory(location.state.category);
+    }
+  }, [location.state?.category]);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,9 +26,9 @@ const ProductList: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         let query = supabase.from('products').select('*');
-        
+
         if (selectedCategory !== 'All') {
           query = query.eq('category', selectedCategory);
         }
@@ -35,7 +43,7 @@ const ProductList: React.FC = () => {
         }
 
         const { data, error } = await query;
-        
+
         if (error) throw error;
         setProducts(data || []);
       } catch (err: any) {
@@ -53,7 +61,6 @@ const ProductList: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Products</h1>
-        <p className="text-slate-500 mt-2 text-lg">Browse our full collection of premium apparel.</p>
       </div>
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
@@ -62,11 +69,10 @@ const ProductList: React.FC = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === category 
-                  ? 'bg-slate-900 text-white shadow-md' 
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category
+                  ? 'bg-slate-900 text-white shadow-md'
                   : 'bg-white text-slate-600 border border-gray-200 hover:border-slate-400 hover:bg-gray-50'
-              }`}
+                }`}
             >
               {category}
             </button>
@@ -102,7 +108,7 @@ const ProductList: React.FC = () => {
           <p>Failed to load products. Error: {error}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
           {products.length > 0 ? (
             products.map(product => (
               <ProductCard key={product.id} product={product} />
@@ -110,7 +116,7 @@ const ProductList: React.FC = () => {
           ) : (
             <div className="col-span-full py-20 text-center">
               <p className="text-slate-500 text-lg">No products found for this category.</p>
-              <button 
+              <button
                 onClick={() => setSelectedCategory('All')}
                 className="mt-4 text-blue-600 font-medium hover:underline"
               >

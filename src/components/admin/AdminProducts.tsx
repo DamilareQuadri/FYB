@@ -3,8 +3,9 @@ import { Plus, Trash2, Pencil, Loader2, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { formatCurrency } from '../../utils/helpers';
 import type { Product } from '../../types';
+import { CATEGORIES } from '../../data';
 
-const CATEGORY_OPTIONS = ['Corporate', 'Y2k/Denim', 'Jersey', 'Costume', 'Outerwear', 'Accessories'];
+const CATEGORY_OPTIONS = CATEGORIES.filter(c => c !== 'All');
 const ALL_SIZES = ['S', 'M', 'L', 'XL'];
 
 interface FormState {
@@ -32,6 +33,7 @@ const AdminProducts: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -48,6 +50,7 @@ const AdminProducts: React.FC = () => {
 
   const resetForm = () => {
     setForm(emptyForm);
+    setImageFile(null);
     setEditing(false);
   };
 
@@ -69,12 +72,36 @@ const AdminProducts: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    
+    let uploadedImageUrl = form.imageUrl;
+    if (imageFile) {
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, imageFile);
+
+      if (uploadError) {
+        alert(`Image upload failed: ${uploadError.message}`);
+        setSaving(false);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+        
+      uploadedImageUrl = data.publicUrl;
+    }
+
     const payload = {
       name: form.name,
       price: Number(form.price),
       description: form.description,
       category: form.category,
-      images: form.imageUrl ? [form.imageUrl] : ['/images/premium_shirt_1781633323343.png'],
+      images: uploadedImageUrl ? [uploadedImageUrl] : ['/images/premium_shirt_1781633323343.png'],
       sizes: form.sizes,
       colors: form.colors.split(',').map((c) => c.trim()).filter(Boolean),
     };
@@ -136,7 +163,10 @@ const AdminProducts: React.FC = () => {
             ))}
           </div>
           <input required placeholder="Colors (comma separated)" value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-slate-900" />
-          <input type="url" placeholder="Image URL (optional)" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-slate-900" />
+          <div className="space-y-1">
+            <input type="file" accept="image/*" onChange={(e) => { if (e.target.files && e.target.files[0]) setImageFile(e.target.files[0]); }} className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-slate-900 bg-white" />
+            <p className="text-xs text-gray-500 px-1">Upload a new image, or leave blank to keep the current one.</p>
+          </div>
         </div>
         <button type="submit" disabled={saving} className="mt-5 inline-flex items-center gap-2 bg-slate-900 text-white rounded-lg py-3 px-6 text-sm font-medium hover:bg-slate-800 disabled:opacity-50">
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}

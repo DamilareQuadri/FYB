@@ -1,12 +1,19 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 const Navbar: React.FC = () => {
   const { openCart, items } = useCart();
+  const navigate = useNavigate();
+  const [term, setTerm] = useState('');
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(term.trim() ? `/products?q=${encodeURIComponent(term.trim())}` : '/products');
+  };
 
   return (
     <nav className="sticky top-0 z-40 w-full bg-white border-b border-gray-100">
@@ -44,14 +51,18 @@ const Navbar: React.FC = () => {
 
           {/* Right Section: Search & Icons */}
           <div className="flex items-center space-x-4 md:space-x-6">
-            <div className="hidden lg:flex relative">
+            <form onSubmit={submitSearch} className="hidden lg:flex relative">
               <input
                 type="text"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
                 placeholder="Search for products"
                 className="bg-gray-100 border-none rounded-full py-1.5 pl-4 pr-10 text-sm focus:ring-2 focus:ring-slate-900 outline-none w-48"
               />
-              <Search className="absolute right-3 top-2 h-4 w-4 text-gray-400" />
-            </div>
+              <button type="submit" aria-label="Search" className="absolute right-3 top-2 text-gray-400 hover:text-slate-900">
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
 
             <button className="text-slate-700 hover:text-black transition-colors">
               <User className="h-6 w-6" />
